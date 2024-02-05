@@ -1,0 +1,21 @@
+.heading{
+	font-weight: bold;
+	text-align:left;
+}
+
+.category-head{
+	text-align:center;
+}
+
+.table{
+	width:25%;
+	text-align:left;
+}
+
+.unstocked{
+	color:#F90303;
+}
+
+.stocked{
+	color:#FFFFF;
+}
