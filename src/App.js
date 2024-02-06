@@ -1,71 +1,56 @@
 import './App.css';
-import React from 'react';
+import React, {useState} from 'react';
 
-class GroceryStore extends  React.Component{
-	constructor(props){
-		super(props);
-		this.state={
-			stocked:false,
-			data:this.props.data,
-			filter:''
-		};
-		this.onInputChange=this.onInputChange.bind(this);
-		this.onCheckBoxChanged=this.onCheckBoxChanged.bind(this);
-		this.filterItems=this.filterItems.bind(this);
-	}
+function GroceryStore({data}){
+	const [stocked, setStocked] = useState(false);
+	const [filter, setFilter] = useState('');
 	
-	onInputChange(event){
-		console.log('value:',event.target.value);
-		this.filterItems(this.state.stocked, event.target.value);
-		return;
-	}
-	
-	onCheckBoxChanged(event){
-		console.log(event.target.checked);
-		this.filterItems(event.target.checked, this.state.filter);
-		return;
-	}
-	
-	filterItems(inStock, filterText){
-		this.setState((state)=>({
-			data:this.props.data.filter((item)=>{
-						if(!(filterText===null || filterText=== '') && !inStock)
-							return item.name.includes(filterText);
-						else if(!(filterText===null || filterText=== '') && inStock)
-							return item.name.includes(filterText) && item.stocked;
-						else if((filterText===null || filterText=== '') && inStock)
-							return item.stocked;
-						else
-							return true;
-					}),
-			stocked:inStock,
-			filter:filterText
-		}));
-		return;
-	}
-	
-	render(){
-		return (
-			<div>
-				<Input onInputChange={this.onInputChange} onCheckBoxChanged={this.onCheckBoxChanged} />
-				<table className='table'>
-				<tbody>
-					<tr id='heading' className='heading'>
-						<td>Name</td>
-						<td>Price</td>
-					</tr>
-					<Category categoryname='Fruits' items={this.state.data.filter((item)=>{
-						return item.category==='Fruits'
-					})} />
-					<Category categoryname='Vegetables' items={this.state.data.filter((item)=>{
-						return item.category==='Vegetables'
-					})} />
-				</tbody>
-				</table>
+	return (
+		<div>
+			<Input onInputChange={(event)=> setFilter(event.target.data)} onCheckBoxChanged={(event)=> setStocked(event.target.checked)} />
+			<table className='table'>
+			<tbody>
+				<tr id='heading' className='heading'>
+					<td>Name</td>
+					<td>Price</td>
+				</tr>
+				<Category categoryname='Fruits' items={filterItems(data.filter((item)=>{
+					return item.category==='Fruits'
+				}), stocked, filter)} />
+				<Category categoryname='Vegetables' items={filterItems(data.filter((item)=>{
+					return item.category==='Vegetables'
+				}), stocked, filter)} />
+			</tbody>
+			</table>
+		</div>
+	);
+}
 
-			</div>
-		);
-	}
+function filterItems(data, inStock, filterText){
+	return data.filter((item)=>{
+					if(!(filterText===null || filterText=== '') && !inStock)
+						return item.name.includes(filterText);
+					else if(!(filterText===null || filterText=== '') && inStock)
+						return item.name.includes(filterText) && item.stocked;
+					else if((filterText===null || filterText=== '') && inStock)
+						return item.stocked;
+					else
+						return true;
+				});
+}
+
+function Input({onInputChange, onCheckBoxChanged}){
+	return(
+		<div>
+			<form>
+				<input type='text' placeholder='Search...' onChange={onInputChange} /><br />
+				<label>
+					<input type='checkbox' onClick={onCheckBoxChanged} />
+					Only show products in stock
+				</label>
+			</form>
+		</div>
+	);
 }
 
 function Category({categoryname, items}){
@@ -85,24 +70,10 @@ function Category({categoryname, items}){
 
 function Item({id, stocked, name, price}){
 	return (
-			<tr id={id} className={stocked===true?'stocked':'unstocked'}>
-				<td>{name}</td>
-				<td>{price}</td>
-			</tr>
-		);
-}
-
-function Input({onInputChange, onCheckBoxChanged}){
-	return(
-		<div>
-			<form>
-				<input type='text' placeholder='Search...' onChange={onInputChange} /><br />
-				<label>
-					<input type='checkbox' onClick={onCheckBoxChanged} />
-					Only show products in stock
-				</label>
-			</form>
-		</div>
+		<tr id={id} className={stocked===true?'stocked':'unstocked'}>
+			<td>{name}</td>
+			<td>{price}</td>
+		</tr>
 	);
 }
 
