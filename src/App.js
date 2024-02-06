@@ -4,6 +4,8 @@ import React, {useState} from 'react';
 function GroceryStore({data}){
 	const [stocked, setStocked] = useState(false);
 	const [filter, setFilter] = useState('');
+	const fruits = data.filter((item)=>{return item.category==='Fruits'});
+	const vegetables = data.filter((item)=>{return item.category==='Vegetables'});
 	
 	return (
 		<div>
@@ -14,12 +16,8 @@ function GroceryStore({data}){
 					<td>Name</td>
 					<td>Price</td>
 				</tr>
-				<Category categoryname='Fruits' items={filterItems(data.filter((item)=>{
-					return item.category==='Fruits'
-				}), stocked, filter)} />
-				<Category categoryname='Vegetables' items={filterItems(data.filter((item)=>{
-					return item.category==='Vegetables'
-				}), stocked, filter)} />
+				<Category categoryname='Fruits' items={filterItems(fruits, stocked, filter)} />
+				<Category categoryname='Vegetables' items={filterItems(vegetables, stocked, filter)} />
 			</tbody>
 			</table>
 		</div>
