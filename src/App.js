@@ -68,49 +68,42 @@ class GroceryStore extends  React.Component{
 	}
 }
 
-class Category extends React.Component{
-	render(){
-		//console.log(this.props.categoryname, this.props.items);
-		return (
-				<>
-					<tr id={this.props.categoryname} className='heading'>
-						<td span='2' className='category-head'>{this.props.categoryname}</td>
-					</tr>
-					{
-						this.props.items.map((val, index)=> {
-							return <Item key={index} id={index} name={val.name} price={val.price} stocked={val.stocked} />
-						})
-					}
-				</>
-		);
-	}
+function Category({categoryname, items}){
+	return (
+		<>
+			<tr id={categoryname} className='heading'>
+				<td span='2' className='category-head'>{categoryname}</td>
+			</tr>
+			{
+				items.map((val, index)=> {
+					return <Item key={index} id={index} name={val.name} price={val.price} stocked={val.stocked} />
+				})
+			}
+		</>
+	);
 }
 
-class Item extends React.Component{
-	render(){
-		return (
-			<tr id={this.props.id} className={this.props.stocked===true?'stocked':'unstocked'}>
-				<td>{this.props.name}</td>
-				<td>{this.props.price}</td>
+function Item({id, stocked, name, price}){
+	return (
+			<tr id={id} className={stocked===true?'stocked':'unstocked'}>
+				<td>{name}</td>
+				<td>{price}</td>
 			</tr>
 		);
-	}
 }
 
-class Input extends React.Component{
-	render(){
-		return(
-			<div>
-				<form>
-					<input type='text' placeholder='Search...' onChange={this.props.onInputChange} /><br />
-					<label>
-						<input type='checkbox' onClick={this.props.onCheckBoxChanged} />
-						Only show products in stock
-					</label>
-				</form>
-			</div>
-		);
-	}
+function Input({onInputChange, onCheckBoxChanged}){
+	return(
+		<div>
+			<form>
+				<input type='text' placeholder='Search...' onChange={onInputChange} /><br />
+				<label>
+					<input type='checkbox' onClick={onCheckBoxChanged} />
+					Only show products in stock
+				</label>
+			</form>
+		</div>
+	);
 }
 
 export default GroceryStore;
