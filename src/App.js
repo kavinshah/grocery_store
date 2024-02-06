@@ -10,6 +10,11 @@ function GroceryStore({data}){
 	return (
 		<div>
 			<Input onInputChange={(event)=> setFilter(event.target.data)} onCheckBoxChanged={(event)=> setStocked(event.target.checked)} />
+			/*
+				TODO
+				1. Convert the entire block below into a separate component.
+				2. Identify the categories dynamically.
+			*/
 			<table className='table'>
 			<tbody>
 				<tr id='heading' className='heading'>
