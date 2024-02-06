@@ -11,7 +11,9 @@ const data = [
   { category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
   { category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
   { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
-  { category: "Vegetables", price: "$1", stocked: true, name: "Peas" }
+  { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
+  { category: "Flowers", price: "$15", stocked: true, name: "Sunflower" },
+  { category: "Flowers", price: "$4", stocked: false, name: "Jasmine" }
 ];
 
 root.render(
