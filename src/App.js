@@ -4,28 +4,40 @@ import React, {useState} from 'react';
 function GroceryStore({data}){
 	const [stocked, setStocked] = useState(false);
 	const [filter, setFilter] = useState('');
-	const fruits = data.filter((item)=>{return item.category==='Fruits'});
-	const vegetables = data.filter((item)=>{return item.category==='Vegetables'});
 	
 	return (
 		<div>
-			<Input onInputChange={(event)=> setFilter(event.target.data)} onCheckBoxChanged={(event)=> setStocked(event.target.checked)} />
-			/*
-				TODO
-				1. Convert the entire block below into a separate component.
-				2. Identify the categories dynamically.
-			*/
-			<table className='table'>
+			<Input onInputChange={(event)=> setFilter(event.target.value)} onCheckBoxChanged={(event)=> setStocked(event.target.checked)} />
+			<Items data={data} stocked={stocked} filter={filter} />
+		</div>
+	);
+}
+
+function Items({data, stocked, filter}){
+	let categories = [];
+	data.map((item, index)=> {
+		if(!categories.includes(item.category))
+			categories.push(item.category);
+		return true;
+	});
+	
+	return(
+		<table className='table'>
 			<tbody>
 				<tr id='heading' className='heading'>
 					<td>Name</td>
 					<td>Price</td>
 				</tr>
-				<Category categoryname='Fruits' items={filterItems(fruits, stocked, filter)} />
-				<Category categoryname='Vegetables' items={filterItems(vegetables, stocked, filter)} />
+				{
+					categories.map((item, index)=>{
+						return (
+							<Category key={index} categoryname={item}
+								items={filterItems(data.filter((x)=> x.category===item), stocked, filter)} />
+						)
+					})
+				}
 			</tbody>
-			</table>
-		</div>
+		</table>
 	);
 }
 
